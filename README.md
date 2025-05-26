@@ -27,10 +27,11 @@
 ## 📸 Screenshots | Ekran Görüntüleri
 
 ### 🌍 All Countries | Tüm Ülkeler
-![All Countries](./e23a8fd4-0215-4513-9378-d65e51492974.png)
+![All Countries](https://github.com/user-attachments/assets/2327fe57-34b5-4004-8c57-3527fa5a6ee3)
 
 ### 🔎 Filtered Result | Filtrelenmiş Sonuç
-![Filtered Country](./872ddf72-4254-4b45-b3df-d0b40aec2559.png)
+![Filtered Country](https://github.com/user-attachments/assets/ab386c55-a26b-4226-9ff8-02f66d037b58)
+
 
 ---
 
