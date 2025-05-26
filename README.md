@@ -16,14 +16,6 @@
 
 ---
 
-## 🚀 Live Preview | Canlı Önizleme
-
-> You can open the project directly in your browser:  
-> **[Live Demo](#)**  
-> _(Replace this with your GitHub Pages or Vercel link)_
-
----
-
 ## 📸 Screenshots | Ekran Görüntüleri
 
 ### 🌍 All Countries | Tüm Ülkeler
