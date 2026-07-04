@@ -1,8 +1,8 @@
 # 🌍 Country Explorer
 
-> A modern and responsive web application built with **REST Countries API**. You can search for any country, view their flags, population, capitals, and languages – all with a stylish dark mode interface.
+> A modern and responsive web application built with the **countries.dev API**. You can search for any country, view their flags, population, capitals, and languages – all with a stylish dark mode interface.
 
-> **REST Countries API** ile oluşturulmuş modern ve duyarlı bir web uygulamasıdır. Ülkeleri arayabilir, bayraklarını, nüfus bilgilerini, başkentlerini ve konuşulan dilleri görüntüleyebilirsiniz. Koyu tema desteğiyle şık bir tasarım sunar.
+> **countries.dev API** ile oluşturulmuş modern ve duyarlı bir web uygulamasıdır. Ülkeleri arayabilir, bayraklarını, nüfus bilgilerini, başkentlerini ve konuşulan dilleri görüntüleyebilirsiniz. Koyu tema desteğiyle şık bir tasarım sunar.
 
 ---
 
@@ -32,6 +32,6 @@
 - HTML5
 - CSS3 (Dark mode styling)
 - JavaScript (Fetch API)
-- [REST Countries API](https://restcountries.com)
+- [countries.dev API](https://countries.dev)
 
 ---

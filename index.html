@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌍 Country Explorer</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #121212;
+        color: #f1f1f1;
+      }
+
+      .main-container {
+        border-radius: 1rem;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+        padding: 2rem;
+        margin-top: 2rem;
+        background-color: #1e1e1e;
+      }
+
+      .card {
+        border-radius: 1rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+        background-color: #2c2c2c;
+        color: white;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .card:hover {
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      .card-img-top {
+        height: 160px;
+        object-fit: cover;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
+
+      input::placeholder {
+        color: #bbb;
+      }
+
+      @media (max-width: 767px) {
+        .col-md-3 {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container main-container">
+      <h1 class="text-center mb-4 display-5 fw-bold">🌍 Country Explorer</h1>
+      <p class="text-center lead">
+        Get information about countries using the
+        <strong>REST Countries API</strong>.
+      </p>
+
+      <div class="mb-4 d-flex gap-2">
+        <input
+          type="text"
+          id="searchBox"
+          class="form-control"
+          placeholder="Type a country name (e.g., Turkey)..."
+        />
+        <button id="showAllBtn" class="btn btn-outline-light">
+          Show All
+        </button>
+      </div>
+
+      <div class="row g-3" id="countryCards"></div>
+    </div>
+
+    <script>
+      const curatedCodes = [
+        "TR", "DE", "FR", "IT", "ES", "JP", "KR", "US", "CA", "BR",
+        "AR", "AU", "NZ", "ZA", "NG", "IN", "CN", "RU", "GB", "SE",
+        "NO", "FI", "DK", "NL", "BE", "CH", "AT", "PT", "GR", "PL",
+        "CZ", "HU", "RO", "BG", "RS", "HR", "SK", "SI", "UA", "BY",
+        "EE", "LV", "LT", "IS",
+      ];
+
+      const container = document.getElementById("countryCards");
+      const searchBox = document.getElementById("searchBox");
+      const showAllBtn = document.getElementById("showAllBtn");
+
+      let allCountries = [];
+
+      function renderCard(country) {
+        return `
+            <div class="col-sm-6 col-md-4 col-lg-3 d-flex">
+              <div class="card h-100 w-100">
+                <img src="${country.flags.png}" class="card-img-top" alt="${country.name} flag" />
+                <div class="card-body">
+                  <h5 class="card-title fw-semibold">${country.name}</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent text-white">Population: <b>${(
+                      country.population / 1_000_000
+                    ).toFixed(1)}M</b></li>
+                    <li class="list-group-item bg-transparent text-white">Capital: <b>${
+                      country.capital || "N/A"
+                    }</b></li>
+                    <li class="list-group-item bg-transparent text-white">Languages: <b>${
+                      country.languages && country.languages.length
+                        ? country.languages.map((l) => l.name).join(", ")
+                        : "N/A"
+                    }</b></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          `;
+      }
+
+      function showMessage(text, variant) {
+        container.innerHTML =
+          `<p class="text-center text-${variant || "secondary"} w-100 py-4">${text}</p>`;
+      }
+
+      function renderList(countries) {
+        if (!countries.length) {
+          showMessage("No countries to display.");
+          return;
+        }
+        container.innerHTML = countries.map(renderCard).join("");
+      }
+
+      // Default view: the curated countries, in the order defined above.
+      function curatedCountries() {
+        return curatedCodes
+          .map((code) => allCountries.find((c) => c.alpha2Code === code))
+          .filter(Boolean);
+      }
+
+      searchBox.addEventListener("keyup", function (e) {
+        const keyword = e.target.value.trim().toLowerCase();
+        if (keyword === "") {
+          renderList(curatedCountries());
+        } else {
+          const matches = allCountries.filter((c) =>
+            c.name.toLowerCase().includes(keyword)
+          );
+          if (matches.length) {
+            renderList(matches);
+          } else {
+            showMessage(`No country found for "${keyword}". Try another name.`);
+          }
+        }
+      });
+
+      showAllBtn.addEventListener("click", function () {
+        searchBox.value = "";
+        renderList(curatedCountries());
+      });
+
+      // Load all countries once from countries.dev (free, no API key,
+      // CORS-enabled), then filter locally: one request, instant search.
+      showMessage("Loading countries\u2026");
+      fetch("https://countries.dev/countries")
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to load country data");
+          return res.json();
+        })
+        .then((data) => {
+          allCountries = data;
+          renderList(curatedCountries());
+        })
+        .catch(() => {
+          showMessage(
+            "Could not load country data. Please try again later.",
+            "danger"
+          );
+        });
+    </script>
+  </body>
+</html>
